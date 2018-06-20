@@ -40,7 +40,7 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
-        <v-layout justify-center align-center>
+        <v-layout row wrap>
           <v-flex shrink>
             <router-view/>
           </v-flex>
@@ -75,8 +75,6 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 #nav {
   padding: 30px;
