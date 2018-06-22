@@ -1,116 +1,59 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs12 sm4 v-for="currency in currencyList" :key="currency.id" >
-      <v-card>
-        <v-card-media height="200px">
-          <img src="https://cdn.newsapi.com.au/image/v1/8d04628e911865cd4272017f18629e51" alt="">
-          <img :src="`icon/${currency.symbol}.svg`" class="icon">
-          <h3> {{currency.symbol}} </h3>
-          
-          <p>Percent change (24h):
-            <br> 
-            <span :class="{
-              positive: currency.quotes.USD.percent_change_24h > 0,
-              negative: currency.quotes.USD.percent_change_24h < 0,
-              zero: currency.quotes.USD.percent_change_24h === 0
-              }">
-              {{currency.quotes.USD.percent_change_24h}} %</span> 
-          </p>
-        </v-card-media>
-        <v-card-title primary-title>
-          <div>
-            <p class="headline mb-0">{{currency.name}}</p>
-            <div>{{text}}</div>
-          </div>
-        </v-card-title>
-        <v-card-actions>
-          <v-btn flat color="orange">Shares</v-btn>
-          <v-btn flat color="orange">Explore</v-btn>
-        </v-card-actions>
-      </v-card>
+  <div>
+    <v-flex class="f-lex">
+      <h1>Currency List</h1>
+      <v-text-field
+          class="in"
+          placeholder="Search currency"
+          append-icon="search"
+          color="white"
+          hide-details
+          v-model="findCurrency"
+        ></v-text-field>
     </v-flex>
-    
-    
-  </v-layout>
+  <Currency-list :currencyList="filteredCurrencies"/>
+  </div>
 </template>
 
 <script>
+import CurrencyList from "./../components/CurrencyList";
 export default {
+  components: {
+    CurrencyList
+  },
   data() {
     return {
-      text:
-        "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel.",
-      classObject: {
-        positive: "currency.quotes.USD.percent_change_24h > 0"
-      }
+      findCurrency: ""
     };
   },
   computed: {
-    currencyList() {
-      return this.$store.state.currencyList;
-    },
-    currencyCode() {
-      return this.$store.state.currencyList.symbol.toLowerCase();
+    filteredCurrencies() {
+      let filter = new RegExp(this.findCurrency, "i");
+      const arr = Object.values(this.$store.state.currencyList);
+      const filtered = arr.filter(el => el.name.match(filter));
+      console.log(filtered);
+      return filtered;
     }
-  },
-  created() {
-    this.$store.dispatch("getCurrencyList");
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.card {
-  margin: 1rem;
+h1 {
+  margin-left: 1rem;
 }
 
-.card__media img {
-  filter: grayscale(60%);
-}
-.card__media__content > h3 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  text-align: center;
-  color: #2c3e50;
+.f-lex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.card__media__content > p {
-  position: absolute;
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #2c3e50;
-}
-
-.card__media__content {
-  span {
-    font-size: 26px;
-    font-weight: bold;
-  }
-}
-
-.icon {
-  position: absolute;
-  height: auto;
-  width: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 35%;
-}
-
-.positive {
-  color: #00ff50;
-}
-
-.negative {
-  color: red;
-}
-
-.zero {
-  color: #e67e22;
+.in {
+  padding: 0;
+  width: 25%;
+  flex: initial;
+  transition: width 0.3s ease-in;
 }
 </style>

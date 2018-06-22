@@ -36,12 +36,12 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>CryptoList</v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
         <v-layout row wrap>
-          <v-flex shrink>
+          <v-flex>
             <router-view/>
           </v-flex>
         </v-layout>
