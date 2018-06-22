@@ -4,15 +4,17 @@
       <v-card>
         <v-card-media height="200px">
           <img src="https://cdn.newsapi.com.au/image/v1/8d04628e911865cd4272017f18629e51" alt="">
+          <img :src="`icon/${currency.symbol}.svg`" class="icon">
           <h3> {{currency.symbol}} </h3>
-          <p>Percent change (1h):
+          
+          <p>Percent change (24h):
             <br> 
             <span :class="{
-              positive: currency.quotes.USD.percent_change_1h > 0,
-              negative: currency.quotes.USD.percent_change_1h < 0,
-              zero: currency.quotes.USD.percent_change_1h === 0
+              positive: currency.quotes.USD.percent_change_24h > 0,
+              negative: currency.quotes.USD.percent_change_24h < 0,
+              zero: currency.quotes.USD.percent_change_24h === 0
               }">
-              {{currency.quotes.USD.percent_change_1h}} %</span> 
+              {{currency.quotes.USD.percent_change_24h}} %</span> 
           </p>
         </v-card-media>
         <v-card-title primary-title>
@@ -39,13 +41,16 @@ export default {
       text:
         "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel.",
       classObject: {
-        positive: "currency.quotes.USD.percent_change_1h > 0"
+        positive: "currency.quotes.USD.percent_change_24h > 0"
       }
     };
   },
   computed: {
     currencyList() {
       return this.$store.state.currencyList;
+    },
+    currencyCode() {
+      return this.$store.state.currencyList.symbol.toLowerCase();
     }
   },
   created() {
@@ -69,6 +74,7 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 24px;
   text-align: center;
+  color: #2c3e50;
 }
 
 .card__media__content > p {
@@ -77,6 +83,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  color: #2c3e50;
 }
 
 .card__media__content {
@@ -84,6 +91,15 @@ export default {
     font-size: 26px;
     font-weight: bold;
   }
+}
+
+.icon {
+  position: absolute;
+  height: auto;
+  width: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 35%;
 }
 
 .positive {
